@@ -3,11 +3,40 @@ name: Manual Run
 on:
   workflow_dispatch:
 
+permissions:
+  contents: read
+  actions: write
+
 jobs:
   say-hello:
     runs-on: ubuntu-latest
     steps:
+      - name: Setup InvisiRisk - Build Application Firewall
+        uses: invisirisk/pse-action@latest
+        with:
+          api_url: "https://app.stage.invisirisk.com"
+          app_token: ${{ secrets.IR_API_KEY }}
+
       - name: Checkout repository
         uses: actions/checkout@v4
+
       - name: Say hello
         run: echo "Workflow triggered manually at $(date)"
+
+      - name: Cleanup Build Application Firewall
+        if: always()
+        uses: invisirisk/pse-action@latest
+        with:
+          cleanup: "true"
+
+  gather_analytics:
+    runs-on: ubuntu-latest
+    name: Gather Analytics
+    needs: [say-hello]
+    steps:
+      - name: Gather Status
+        uses: invisirisk/pse-action@latest
+        with:
+          api_url: "https://app.stage.invisirisk.com"
+          app_token: ${{ secrets.IR_API_KEY }}
+          send_job_status: "true"
