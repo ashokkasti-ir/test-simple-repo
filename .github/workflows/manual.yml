@@ -20,6 +20,9 @@ jobs:
           api_url: "https://app.stage.invisirisk.com"
           app_token: ${{ secrets.IR_API_KEY }}
 
+      - name: Say hello
+        run: echo "Workflow triggered manually at $(date)"
+
       - name: Cleanup Build Application Firewall
         if: always()
         uses: invisirisk/pse-action@latest
