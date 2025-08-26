@@ -1,0 +1,13 @@
+name: Manual Run
+
+on:
+  workflow_dispatch:
+
+jobs:
+  say-hello:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Say hello
+        run: echo "Workflow triggered manually at $(date)"
