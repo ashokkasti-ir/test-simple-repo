@@ -19,14 +19,14 @@ jobs:
         with:
           node-version: '18'
 
-      - name: Install dependencies
-        run: npm install
-
       - name: Setup InvisiRisk - Build Application Firewall
         uses: invisirisk/pse-action@latest
         with:
           api_url: "https://app.invisirisk.com"
           app_token: ${{ secrets.IR_API_KEY }}
+
+      - name: Install dependencies
+        run: npm install
 
       - name: Say hello
         run: echo "Workflow triggered manually at $(date)"
